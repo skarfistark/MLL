@@ -1,0 +1,41 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+training_data=[
+   [25,25000],
+   [23,22000],
+   [24,26000],
+   [28,29000],
+   [34,38600],
+   [32,36500],
+   [42,41000],
+   [55,81000],
+   [45,47500]
+]
+
+size = len(training_data)
+
+training_data=np.array(training_data)
+
+age=training_data[:,0]
+income=training_data[:,1]
+
+mean_age=np.mean(age)
+mean_income=np.mean(income)
+
+cd_ageincome=np.sum(age*income)-size*mean_age*mean_income
+cd_ageage=np.sum(age*age)-size*mean_age*mean_age
+
+b1=cd_ageincome/cd_ageage
+b0=mean_income-b1*mean_age
+
+plt.scatter(age,income,color="r",marker="s")
+
+response_vec = b0+b1*age
+
+plt.plot(age,response_vec,color="y")
+
+plt.xlabel('Age')
+plt.ylabel('Income')
+
+plt.show()
