@@ -1,0 +1,45 @@
+import pandas as pd
+from sklearn import tree
+from sklearn.tree import DecisionTreeClassifier
+import matplotlib.pyplot as plt
+
+
+table = [
+['sunny', 'warm', 'normal', 'strong', 'warm', 'same', 'yes'],
+['sunny', 'warm', 'high', 'strong', 'warm', 'same', 'yes'],
+['rainy', 'cold', 'high', 'strong', 'warm', 'change', 'no'],
+['sunny', 'warm', 'high', 'strong', 'cool', 'change', 'yes']
+]
+
+df = pd.DataFrame(table, columns =[i for i in range(len(table[0]))])
+
+dd = {'sunny':0,'rainy':1}
+df[0]=df[0].map(dd)
+
+dd = {'warm':0,'cold':1}
+df[1]=df[1].map(dd)
+
+dd = {'normal':0,'high':1}
+df[2]=df[2].map(dd)
+
+dd = {'strong':0}
+df[3]=df[3].map(dd)
+
+dd = {'warm':0,'cool':1}
+df[4]=df[4].map(dd)
+
+dd = {'same':0,'change':1}
+df[5]=df[5].map(dd)
+
+dd = {'yes':1,'no':0}
+df[6]=df[6].map(dd)
+
+features=[i for i in range(len(table[0])-1)]
+
+X = df[features]
+y = df[6]
+
+dtree = DecisionTreeClassifier()
+dtree = dtree.fit(X, y)
+
+tree.plot_tree(dtree, feature_names=features)
