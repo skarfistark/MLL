@@ -1,0 +1,68 @@
+training_data = [
+["I love this car", "positive"],
+["This view is amazing", "positive"],
+["I feel great", "positive"],
+["I'm not happy with the product", "negative"],
+["This is a terrible place", "negative"],
+["I don't like this movie", "negative"],
+["I hate things","negative"]
+]
+
+vocabulary=set()
+
+for data in training_data:
+  sentence=data[0]
+  words=sentence.split()
+  vocabulary.update(words)
+
+class_probabilities={}
+l1=0
+l2=0
+total_data=len(training_data)
+for data in training_data:
+  if(data[1]=="positive"):
+    l1+=1
+  else:
+    l2+=1
+class_probabilities["positive"]=l1/total_data
+class_probabilities["negative"]=l2/total_data
+
+word_counts={}
+for data in training_data:
+  sentence=data[0]
+  words=sentence.split()
+  label=data[1]
+  if(label not in word_counts):
+    word_counts[label]={}
+  for word in words:
+    if word in word_counts[label]:
+      word_counts[label][word]+=1
+    else:
+      word_counts[label][word]=1
+
+word_probabilities={}
+for label in word_counts:
+  word_probabilities[label]={}
+  total_words=sum(word_counts[label].values())
+  for word in vocabulary:
+    if word in word_counts[label]:
+      word_probabilities[label][word]=word_counts[label][word]/total_words
+    else:
+      word_probabilities[label][word]=0.0
+
+def predict(text):
+  text_probability={}
+  words=text.split()
+  for label in class_probabilities:
+    score=0
+    text_probability[label]=class_probabilities[label]
+    for word in words:
+      if word in vocabulary:
+        score+=word_probabilities[label][word]
+    text_probability[label]*=score
+  if(text_probability["positive"]>text_probability["negative"]):
+      return "positive"
+  else:
+    return "negative"
+
+print(predict("I hate cars"))
