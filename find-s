@@ -1,0 +1,17 @@
+table = [
+['sunny', 'warm', 'normal', 'strong', 'warm', 'same', 'yes'],
+['sunny', 'warm', 'high', 'strong', 'warm', 'same', 'yes'],
+['rainy', 'cold', 'high', 'strong', 'warm', 'change', 'no'],
+['sunny', 'warm', 'high', 'strong', 'cool', 'change', 'yes']
+]
+
+hypo = ["phi" for i in range (len(table[0])-1)]
+
+for i in table:
+  if(i==table[0]):
+    hypo=table[0]
+  if(i[-1]=='yes'):
+    for j in range (len(i)-1):
+      if(i[j]!=hypo[j]):
+        hypo[j]='?'
+print(hypo)
