@@ -1,0 +1,9 @@
+with open("/content/enj.csv","r") as file:
+  lines=file.readlines()
+  
+data=[]
+for line in lines:
+  data.append(line.strip().split(","))
+
+for row in data[1:]:
+  print(row)
