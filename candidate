@@ -1,0 +1,48 @@
+table = [
+['sunny', 'warm', 'normal', 'strong', 'warm', 'same', 'yes'],
+['sunny', 'warm', 'high', 'strong', 'warm', 'same', 'yes'],
+['rainy', 'cold', 'high', 'strong', 'warm', 'change', 'no'],
+['sunny', 'warm', 'high', 'strong', 'cool', 'change', 'yes']
+]
+
+x=[]
+y=[]
+
+for i in table:
+  x.append(i[:len(table[0])-1])
+  y.append(i[-1])
+print("concept : ",x)
+print("target : ",y,end="\n\n")
+
+
+gen_hypo=[["?" for i in range (len(x[0]))] for i in range (len(x[0]))]
+print("most general hypothesis : ",gen_hypo)
+
+spe_hypo=["phi" for i in range (len(x[0]))]
+print("most specific hypothesis : ",spe_hypo,end="\n\n")
+
+spe_hypo=x[0]
+
+for i,h in enumerate(x):
+  if(y[i]=='yes'):
+    for j in range (len(h)):
+      if(spe_hypo[j]!=h[j]):
+        spe_hypo[j]='?'
+        gen_hypo[j][j]='?'
+    
+  else:
+    for j in range (len(h)):
+      if(spe_hypo[j]!=h[j]):
+        gen_hypo[j][j]=spe_hypo[j]
+      else:
+        gen_hypo[j][j]='?'
+
+i=0
+while (i < (len(gen_hypo))):
+  if(gen_hypo[i]==['?' for j in range (len(table[0])-1)]):
+    gen_hypo.pop(i)
+  else:
+    i+=1
+
+print("final specific boundry  : ",spe_hypo)
+print("final general  : ",gen_hypo)
