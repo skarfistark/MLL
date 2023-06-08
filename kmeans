@@ -1,0 +1,92 @@
+import copy
+# import matplotlib.pyplot as plt
+# import numpy as np
+ 
+class kmeans:
+
+  def dist(self,a,b):
+    return (((a[0]-b[0])**2+(a[1]-b[1])**2)**0.5)
+
+  def __init__(self,k):
+    self.k=k
+    
+  def fit(self,x,y):
+    self.x=x
+    self.y=y
+    self.tp_cent=x[:self.k]
+    self.gps=[[x[i]] for i in range (3)]
+
+  def assigner(self,p):
+    for i in p:
+      min=float('inf')
+      minidx=0
+      for j in self.tp_cent:
+        if(min>self.dist(i,j)):
+          min=self.dist(i,j)
+          minidx=self.x.index(j)
+      self.gps[minidx].append(i)
+    
+  def new_centroids(self):
+    for i in self.gps:
+      ncent=[[]]
+      x_co=0
+      y_co=0
+      for j in range(1,len(i)):
+        x_co+=i[j][0]
+        y_co+=i[j][1]
+      ncent[0].append(x_co/(len(i)-1))
+      ncent[0].append(y_co/(len(i)-1))
+      self.gps[self.gps.index(i)]=ncent
+
+
+  def predict(self,x_test):
+    prev_gps=[]
+    while(prev_gps!=self.gps):
+      prev_gps=copy.deepcopy(self.gps)
+      self.assigner(self.x)
+      self.new_centroids()
+
+    self.assigner(x_test+self.x)
+    c0=0
+    c1=0
+    print(self.gps[0][0])
+    print(self.gps[1][0])
+    print(self.gps[2][0])
+    for i in self.gps:
+      if i.count(x_test[0])!=0:
+        for j in range (2,len(i)):
+          if(self.y[self.x.index(i[j])]==0):
+            c0+=1
+          else:
+            c1+=1
+      # i=np.array(i)
+      # plt.scatter(i[:,0],i[:,1])
+    if(c0>c1):
+      return 0
+    else:
+      return 1
+
+data = [
+[1.713, 1.586, 0],
+[0.180, 1.786, 1],
+[0.353, 1.240, 1],
+[0.940, 1.566, 0],
+[1.486, 0.759, 1],
+[1.266, 1.106, 0],
+[1.540, 0.419, 1],
+[0.459, 1.799, 1],
+[0.773, 0.186, 1]
+]
+
+x_train=[]
+y_train=[]
+
+for i in data:
+  x_train.append(i[:2])
+  y_train.append(i[-1])
+
+kmeans=kmeans(3)
+kmeans.fit(x_train,y_train)
+x_test=[[0.906,0.606]]
+
+print(kmeans.predict(x_test))
