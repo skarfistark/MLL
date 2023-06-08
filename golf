@@ -1,0 +1,29 @@
+train_data = [
+['medium', 'skiing', 'design', 'single', 'twenties', 'no', 'highRisk'],
+['high', 'golf', 'trading', 'married', 'forties', 'yes', 'lowRisk'],
+['low', 'speedway', 'transport', 'married', 'thirties', 'yes', 'medRisk'],
+['medium', 'football', 'banking', 'single', 'thirties', 'yes', 'lowRisk'],
+['high', 'flying', 'media', 'married', 'fifties', 'yes', 'highRisk'],
+['low', 'football', 'security', 'single', 'twenties', 'no', 'medRisk'],
+['medium', 'golf', 'media', 'single', 'thirties', 'yes', 'medRisk'],
+['medium', 'golf', 'transport', 'married', 'forties', 'yes', 'lowRisk'],
+['high', 'skiing', 'banking', 'single', 'thirties', 'yes', 'highRisk'],
+['low', 'golf', 'unemployed', 'married', 'forties', 'yes', 'highRisk']
+]
+
+size_data=len(train_data)
+
+nGolf = sum(1 for ex in train_data if ex[1]=='golf')
+
+
+print("unconditional probability of golf : ")
+print(nGolf/size_data)
+
+nSingleMed = sum(1 for ex in train_data if ex[3]=='single' and ex[-1]=='medRisk')
+
+
+nMed = sum(1 for ex in train_data if ex[-1]=='medRisk')
+
+
+print("conditional probability ofsingle given medRisk")
+print(nSingleMed/nMed)
