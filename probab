@@ -1,0 +1,18 @@
+def bayes (AandB,B):
+  return AandB/B
+
+#P(Friday ^ Absent)=3%
+PofFandAb = 0.03
+
+#P(Friday)=20%
+PofF=0.2
+
+#P(Absent/Friday)=?
+
+#according to baye's rule P(A/B)=p(A^B)/p(B)
+
+# => P(Absent/Friday)=P(Friday ^ Absent)/P(Friday)
+
+PofAbgivenF = bayes(PofFandAb,PofF)
+
+print(PofAbgivenF)
